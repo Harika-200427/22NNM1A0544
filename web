@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-// React URL Shortener (single-file component)
-// - Uses Tailwind CSS for styling (no imports here; assume your project has Tailwind configured)
-// - Stores mappings in localStorage (acts as a lightweight backend)
-// - Supports custom alias, automatic slug generation, copy, open (increments visits), delete
-// - Exports/imports JSON for backups
+
 
 function randomSlug(length = 6) {
   const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -46,7 +42,7 @@ export default function App() {
   function makeSlug(requested) {
     const clean = requested.trim();
     if (!clean) return randomSlug();
-    // sanitize: allow alphanumerics, -, _
+   
     const slug = clean.replace(/[^a-zA-Z0-9\-_]/g, "");
     return slug || randomSlug();
   }
@@ -83,7 +79,7 @@ export default function App() {
   function handleOpen(slug) {
     const rec = links[slug];
     if (!rec) return;
-    // increment visits
+   
     setLinks(prev => ({ ...prev, [slug]: { ...rec, visits: (rec.visits || 0) + 1 } }));
     window.open(rec.original, "_blank");
   }
@@ -217,36 +213,9 @@ export default function App() {
           This demo stores links in your browser only. To make a public shortener, deploy a tiny backend that serves <span className="font-mono">/r/:slug</span> and redirects to the original URL. See the comments in the file for a Node/Express sample.
         </footer>
 
-        {/* Node/Express sample (server-side) — copy into a small server.js file and run with Node if you want a simple backend
-
-        // const express = require('express');
-        // const fs = require('fs');
-        // const app = express();
-        // const PORT = process.env.PORT || 4000;
-        // const DBFILE = './links.json';
-        // app.use(express.json());
-        // function load(){ try { return JSON.parse(fs.readFileSync(DBFILE)) } catch(e){ return {} } }
-        // function save(obj){ fs.writeFileSync(DBFILE, JSON.stringify(obj,null,2)) }
-        // app.post('/api/shorten',(req,res)=>{
-        //   const { original, slug } = req.body;
-        //   const links = load();
-        //   if(links[slug]) return res.status(409).send({error:'exists'});
-        //   links[slug] = { original, createdAt: new Date().toISOString(), visits:0 };
-        //   save(links);
-        //   res.send({slug})
-        // })
-        // app.get('/r/:slug',(req,res)=>{
-        //   const links = load();
-        //   const rec = links[req.params.slug];
-        //   if(!rec) return res.status(404).send('Not found');
-        //   rec.visits = (rec.visits||0)+1; save(links);
-        //   res.redirect(rec.original)
-        // })
-        // app.get('/api/list',(req,res)=>{ res.send(load()) })
-        // app.listen(PORT,()=>console.log('listening',PORT))
-
-        */}
+        
       </div>
     </div>
   );
+
 }
